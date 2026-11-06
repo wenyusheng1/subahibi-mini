@@ -1,9 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+package_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+requested_version="${1:-2.0}"
+if [ "$#" -gt 1 ]; then
+  printf '用法：bash install.sh [1.0|2.0]\n' >&2
+  exit 1
+fi
+case "$requested_version" in
+  2.0)
+    source_dir="$package_dir"
+    pet_id="subahibi-mini-v2"
+    pet_name="素晴日 Mini 2.0"
+    ;;
+  1.0)
+    source_dir="$package_dir/versions/1.0"
+    pet_id="subahibi-mini"
+    pet_name="素晴日 Mini"
+    ;;
+  *)
+    printf '不支持的版本：%s\n用法：bash install.sh [1.0|2.0]\n' "$requested_version" >&2
+    exit 1
+    ;;
+esac
 codex_data_dir="${CODEX_HOME:-$HOME/.codex}"
-pet_dir="$codex_data_dir/pets/subahibi-mini"
+pet_dir="$codex_data_dir/pets/$pet_id"
 
 for pet_file in pet.json spritesheet.webp SHA256SUMS; do
   if [ ! -f "$source_dir/$pet_file" ]; then
@@ -38,7 +59,7 @@ fi
 if [ -d "$pet_dir" ]; then
   backup_root="$codex_data_dir/pet-backups"
   mkdir -p "$backup_root"
-  backup_dir="$(mktemp -d "$backup_root/subahibi-mini.XXXXXXXX")"
+  backup_dir="$(mktemp -d "$backup_root/$pet_id.XXXXXXXX")"
   cp -R "$pet_dir/." "$backup_dir/"
   printf '原目录已备份：%s\n' "$backup_dir"
 fi
@@ -49,5 +70,6 @@ cp "$source_dir/spritesheet.webp" "$pet_dir/spritesheet.webp"
 verify_files "$pet_dir"
 
 printf '\n安装完成：%s\n' "$pet_dir"
-printf '请在 Codex Desktop 的设置 → Pets / 宠物中选择「素晴日 Mini」。\n'
+printf '请在 Codex Desktop 的设置 → Pets / 宠物中刷新并选择「%s」。\n' "$pet_name"
+printf '输入 /pet，或从命令菜单选择 Show pet / 显示宠物。\n'
 printf '若列表未刷新，请完整退出并重新打开客户端。\n'
