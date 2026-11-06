@@ -4,11 +4,13 @@
 
 包含 **9 组动画、57 个有效帧**，用于待机、移动、任务执行、等待和审阅等状态。
 
+当前为 **2026-11-06 重绘版**，统一了角色外观与静态动作的画风，并修正了跳跃时人物整体缩小的问题。
+
 | 待机 | 向右跑动 | 审阅 |
 | :---: | :---: | :---: |
 | ![待机](previews/idle.gif) | ![向右跑动](previews/running-right.gif) | ![审阅](previews/review.gif) |
 
-[下载宠物包](dist/subahibi-mini-pet.zip) · [查看全部动作](assets/contact-sheet.png)
+[下载宠物包](dist/subahibi-mini-pet.zip) · [九组动画总览](assets/animation-overview.gif) · [查看全部帧](assets/contact-sheet.png)
 
 ## 安装
 
@@ -86,10 +88,10 @@ Copy-Item -LiteralPath .\pet.json, .\spritesheet.webp -Destination $PetDir -Forc
 | `jumping` | 5 | 下蹲、起跳、腾空、下降和落地 | [查看](previews/jumping.gif) |
 | `failed` | 8 | 失落、抬烟、吸烟与吐烟 | [查看](previews/failed.gif) |
 | `waiting` | 6 | 打开书籍，歪头抬眼等待回应，再收书 | [查看](previews/waiting.gif) |
-| `running` | 6 | 站定托腮思考、目光变化与点头 | [查看](previews/running.gif) |
+| `running` | 6 | 站定思考、抬手触下巴，再缓缓放下 | [查看](previews/running.gif) |
 | `review` | 6 | 专注阅读、翻页、歪头和合书 | [查看](previews/review.gif) |
 
-左右移动分别绘制，发饰与兔子保持在角色原本的身体侧。跳跃行保留腾空空间，整体占幅略小；`running` 表示执行任务时的思考状态。
+左右移动分别绘制，发饰与兔子保持在角色原本的身体侧。各状态沿用统一的角色尺度；跳跃通过下蹲、蹬地、腾空与落地改变姿势和高度，不单独缩小人物。`running` 表示执行任务时的思考状态。
 
 ## 文件与规格
 
@@ -103,6 +105,7 @@ subahibi-mini/
 ├── dist/subahibi-mini-pet.zip
 ├── assets/
 │   ├── idle-first-frame.png
+│   ├── animation-overview.gif
 │   └── contact-sheet.png
 └── previews/                    # 九组动画预览
 ```
